@@ -1,9 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { ChatMessage, BotPersona } from '../types';
 
-// Use a default empty string if API_KEY is not provided to prevent immediate crash during initialization in some environments.
-const API_KEY = process.env.API_KEY || process.env.GEMINI_API_KEY || "";
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+// Defer initialization to prevent crash if API_KEY is missing during build time
+let aiInstance: GoogleGenAI | null = null;
+const getAI = () => {
+  if (!aiInstance) {
+    const API_KEY = process.env.API_KEY || process.env.GEMINI_API_KEY || "";
+    if (!API_KEY) {
+      console.warn("Gemini API Key is missing. AI features will be unavailable.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey: API_KEY });
+  }
+  return aiInstance;
+};
+
 const MODEL_NAME = 'gemini-3-flash-preview';
 
 /**
@@ -27,6 +37,7 @@ export const generateChatSummary = async (messages: ChatMessage[], groupName: st
       ${chatLog}
     `;
 
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: MODEL_NAME,
       contents: prompt,
@@ -56,6 +67,7 @@ export const generateHypeMessage = async (persona: BotPersona, context: string):
       Make it sound like a real crypto user (leek/degen), using Chinese crypto slang (e.g., 冲, 牛逼, 拿住, 纸手) if appropriate for the tone.
     `;
 
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: MODEL_NAME,
       contents: prompt,

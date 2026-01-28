@@ -44,7 +44,7 @@ const TelegramManager: React.FC = () => {
     if (!hypeContext) return;
     setIsGeneratingHype(true);
     const text = await generateHypeMessage(selectedPersona, hypeContext);
-    
+
     const newMessage: ChatMessage = {
       id: Date.now().toString(),
       sender: selectedPersona.name,
@@ -52,7 +52,7 @@ const TelegramManager: React.FC = () => {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       isBot: true,
     };
-    
+
     setMessages([...messages, newMessage]);
     setHypeContext('');
     setIsGeneratingHype(false);
@@ -65,24 +65,24 @@ const TelegramManager: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="grid grid-cols-12 gap-6 h-[calc(100vh-4rem)]">
-      
+    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-4rem)]">
+
       {/* Group List */}
-      <div className="col-span-3 bg-slate-800 rounded-xl border border-slate-700 flex flex-col overflow-hidden">
+      <div className="lg:col-span-3 bg-slate-800 rounded-xl border border-slate-700 flex flex-col overflow-hidden h-[300px] lg:h-auto order-2 lg:order-1">
         <div className="p-4 border-b border-slate-700">
           <h3 className="font-semibold text-white mb-3">管理群组</h3>
           <div className="relative">
             <Search className="absolute left-3 top-2.5 text-slate-500" size={16} />
-            <input 
-              type="text" 
-              placeholder="搜索群组..." 
+            <input
+              type="text"
+              placeholder="搜索群组..."
               className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
             />
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
           {mockGroups.map(group => (
-            <div 
+            <div
               key={group.id}
               onClick={() => setSelectedGroup(group)}
               className={`p-4 border-b border-slate-700/50 cursor-pointer hover:bg-slate-700/50 transition-colors ${selectedGroup.id === group.id ? 'bg-indigo-900/20 border-l-4 border-l-indigo-500' : ''}`}
@@ -101,8 +101,8 @@ const TelegramManager: React.FC = () => {
       </div>
 
       {/* Main Chat View */}
-      <div className="col-span-6 flex flex-col gap-4">
-        
+      <div className="lg:col-span-6 flex flex-col gap-4 order-1 lg:order-2 h-[600px] lg:h-auto">
+
         {/* Chat Stats Header */}
         <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 flex justify-between items-center">
           <div>
@@ -113,21 +113,21 @@ const TelegramManager: React.FC = () => {
             <p className="text-xs text-slate-400">活跃度评分: <span className="text-green-400">{selectedGroup.activityScore}/100</span></p>
           </div>
           <div className="flex gap-2">
-             <button 
-                onClick={() => alert("群组已锁定！全员禁言中。")}
-                className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-2 rounded-lg text-sm transition-colors border border-red-500/20"
-             >
-                <ShieldAlert size={16} />
-                全员禁言
-             </button>
-             <button 
-                onClick={handleGenerateSummary}
-                disabled={isSummarizing}
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
-             >
-                <FileText size={16} />
-                {isSummarizing ? '分析中...' : '生成日报'}
-             </button>
+            <button
+              onClick={() => alert("群组已锁定！全员禁言中。")}
+              className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-2 rounded-lg text-sm transition-colors border border-red-500/20"
+            >
+              <ShieldAlert size={16} />
+              全员禁言
+            </button>
+            <button
+              onClick={handleGenerateSummary}
+              disabled={isSummarizing}
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm transition-colors disabled:opacity-50"
+            >
+              <FileText size={16} />
+              {isSummarizing ? '分析中...' : '生成日报'}
+            </button>
           </div>
         </div>
 
@@ -148,26 +148,26 @@ const TelegramManager: React.FC = () => {
               </div>
             ))}
           </div>
-          
+
           {/* Summary Overlay */}
           {summary && (
-             <div className="absolute inset-x-4 bottom-4 bg-slate-900/95 backdrop-blur-md rounded-lg p-4 border border-indigo-500/50 shadow-2xl animate-fade-in z-20">
-               <div className="flex justify-between items-start mb-2">
-                 <h4 className="text-indigo-400 font-semibold flex items-center gap-2">
-                   <Sparkles size={16} /> AI 智能总结报告
-                 </h4>
-                 <button onClick={() => setSummary(null)} className="text-slate-500 hover:text-white">&times;</button>
-               </div>
-               <div className="text-sm text-slate-300 whitespace-pre-line leading-relaxed max-h-40 overflow-y-auto">
-                 {summary}
-               </div>
-             </div>
+            <div className="absolute inset-x-4 bottom-4 bg-slate-900/95 backdrop-blur-md rounded-lg p-4 border border-indigo-500/50 shadow-2xl animate-fade-in z-20">
+              <div className="flex justify-between items-start mb-2">
+                <h4 className="text-indigo-400 font-semibold flex items-center gap-2">
+                  <Sparkles size={16} /> AI 智能总结报告
+                </h4>
+                <button onClick={() => setSummary(null)} className="text-slate-500 hover:text-white">&times;</button>
+              </div>
+              <div className="text-sm text-slate-300 whitespace-pre-line leading-relaxed max-h-40 overflow-y-auto">
+                {summary}
+              </div>
+            </div>
           )}
         </div>
       </div>
 
       {/* Bot Controls (AI Hype) */}
-      <div className="col-span-3 bg-slate-800 rounded-xl border border-slate-700 flex flex-col">
+      <div className="lg:col-span-3 bg-slate-800 rounded-xl border border-slate-700 flex flex-col order-3">
         <div className="p-4 border-b border-slate-700 bg-indigo-900/10">
           <h3 className="font-semibold text-white flex items-center gap-2">
             <Bot size={18} className="text-indigo-400" />
@@ -182,14 +182,13 @@ const TelegramManager: React.FC = () => {
             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">当前角色 (Active Persona)</label>
             <div className="space-y-2">
               {mockPersonas.map(p => (
-                <div 
+                <div
                   key={p.id}
                   onClick={() => setSelectedPersona(p)}
-                  className={`p-3 rounded-lg border cursor-pointer transition-all ${
-                    selectedPersona.id === p.id 
-                    ? 'bg-indigo-600/20 border-indigo-500' 
+                  className={`p-3 rounded-lg border cursor-pointer transition-all ${selectedPersona.id === p.id
+                    ? 'bg-indigo-600/20 border-indigo-500'
                     : 'bg-slate-900 border-slate-700 hover:border-slate-600'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     <User size={16} className={selectedPersona.id === p.id ? 'text-indigo-400' : 'text-slate-500'} />
@@ -203,28 +202,28 @@ const TelegramManager: React.FC = () => {
 
           {/* Hype Generator */}
           <div className="flex-1">
-             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">语境 / 话题 (Context)</label>
-             <textarea 
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 h-24 resize-none mb-3"
-                placeholder="例如：提醒大家参加 AMA，或者针对刚才的暴跌发表看法..."
-                value={hypeContext}
-                onChange={(e) => setHypeContext(e.target.value)}
-             />
-             <button 
-                onClick={handleInjectHype}
-                disabled={isGeneratingHype || !hypeContext}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 rounded-lg text-sm transition-all flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-             >
-                {isGeneratingHype ? (
-                  <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
-                ) : (
-                  <Send size={16} />
-                )}
-                生成并发送
-             </button>
-             <p className="text-[10px] text-slate-500 mt-2 text-center">
-               AI 将使用选定角色的口吻立即生成并发送消息。
-             </p>
+            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 block">语境 / 话题 (Context)</label>
+            <textarea
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500 h-24 resize-none mb-3"
+              placeholder="例如：提醒大家参加 AMA，或者针对刚才的暴跌发表看法..."
+              value={hypeContext}
+              onChange={(e) => setHypeContext(e.target.value)}
+            />
+            <button
+              onClick={handleInjectHype}
+              disabled={isGeneratingHype || !hypeContext}
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-2 rounded-lg text-sm transition-all flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isGeneratingHype ? (
+                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+              ) : (
+                <Send size={16} />
+              )}
+              生成并发送
+            </button>
+            <p className="text-[10px] text-slate-500 mt-2 text-center">
+              AI 将使用选定角色的口吻立即生成并发送消息。
+            </p>
           </div>
         </div>
       </div>

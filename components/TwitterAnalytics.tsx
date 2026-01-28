@@ -38,33 +38,33 @@ const TweetCard = ({ content, stats, type }: any) => (
 
 const TwitterAnalytics: React.FC = () => {
   return (
-    <div className="grid grid-cols-12 gap-6 h-[calc(100vh-4rem)]">
+    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-4rem)]">
       {/* Left Column: Stats & Chart */}
-      <div className="col-span-8 space-y-6">
-        <div className="grid grid-cols-3 gap-4">
+      <div className="lg:col-span-8 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-800 p-5 rounded-xl border border-slate-700">
-             <div className="flex items-center gap-3 mb-2">
-               <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg"><Twitter size={20} /></div>
-               <span className="text-slate-400 text-sm font-medium">粉丝数 (Followers)</span>
-             </div>
-             <p className="text-2xl font-bold text-white">45.2K</p>
-             <p className="text-xs text-green-400 mt-1">+1.2K 今日新增</p>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg"><Twitter size={20} /></div>
+              <span className="text-slate-400 text-sm font-medium">粉丝数 (Followers)</span>
+            </div>
+            <p className="text-2xl font-bold text-white">45.2K</p>
+            <p className="text-xs text-green-400 mt-1">+1.2K 今日新增</p>
           </div>
           <div className="bg-slate-800 p-5 rounded-xl border border-slate-700">
-             <div className="flex items-center gap-3 mb-2">
-               <div className="p-2 bg-purple-500/20 text-purple-400 rounded-lg"><BarChart2 size={20} /></div>
-               <span className="text-slate-400 text-sm font-medium">7日曝光量 (Impressions)</span>
-             </div>
-             <p className="text-2xl font-bold text-white">418K</p>
-             <p className="text-xs text-green-400 mt-1">+18% 环比增长</p>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-purple-500/20 text-purple-400 rounded-lg"><BarChart2 size={20} /></div>
+              <span className="text-slate-400 text-sm font-medium">7日曝光量 (Impressions)</span>
+            </div>
+            <p className="text-2xl font-bold text-white">418K</p>
+            <p className="text-xs text-green-400 mt-1">+18% 环比增长</p>
           </div>
           <div className="bg-slate-800 p-5 rounded-xl border border-slate-700">
-             <div className="flex items-center gap-3 mb-2">
-               <div className="p-2 bg-red-500/20 text-red-400 rounded-lg"><Heart size={20} /></div>
-               <span className="text-slate-400 text-sm font-medium">互动率 (Engagement)</span>
-             </div>
-             <p className="text-2xl font-bold text-white">4.8%</p>
-             <p className="text-xs text-slate-500 mt-1">行业平均: 2.1%</p>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-red-500/20 text-red-400 rounded-lg"><Heart size={20} /></div>
+              <span className="text-slate-400 text-sm font-medium">互动率 (Engagement)</span>
+            </div>
+            <p className="text-2xl font-bold text-white">4.8%</p>
+            <p className="text-xs text-slate-500 mt-1">行业平均: 2.1%</p>
           </div>
         </div>
 
@@ -76,30 +76,30 @@ const TwitterAnalytics: React.FC = () => {
               <XAxis dataKey="date" stroke="#94a3b8" />
               <YAxis stroke="#94a3b8" />
               <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }} />
-              <Line type="monotone" dataKey="impressions" stroke="#3b82f6" strokeWidth={3} dot={{r: 4, fill: '#3b82f6'}} name="曝光量" />
-              <Line type="monotone" dataKey="engagement" stroke="#ec4899" strokeWidth={3} dot={{r: 4, fill: '#ec4899'}} name="互动量" />
+              <Line type="monotone" dataKey="impressions" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6' }} name="曝光量" />
+              <Line type="monotone" dataKey="engagement" stroke="#ec4899" strokeWidth={3} dot={{ r: 4, fill: '#ec4899' }} name="互动量" />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Right Column: Recent Tweets & Scheduled */}
-      <div className="col-span-4 bg-slate-800 rounded-xl border border-slate-700 flex flex-col overflow-hidden">
+      <div className="lg:col-span-4 bg-slate-800 rounded-xl border border-slate-700 flex flex-col overflow-hidden h-[500px] lg:h-auto">
         <div className="p-4 border-b border-slate-700">
           <h3 className="font-semibold text-white">最新动态</h3>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
-          <TweetCard 
+          <TweetCard
             type="Announcement"
             content="🚀 明天会有重磅合作伙伴公布！记得打开小铃铛 🔔 #Web3 #Crypto"
             stats={{ replies: 124, retweets: 450, likes: 1200, views: '15K' }}
           />
-          <TweetCard 
+          <TweetCard
             type="Reply"
             content="是的，质押入口将在 TGE 之后立即开放。"
             stats={{ replies: 12, retweets: 5, likes: 45, views: '1.2K' }}
           />
-          <TweetCard 
+          <TweetCard
             type="Meme"
             content="当绿柱直接拉起来的时候... 🕯️📈 (懂得都懂)"
             stats={{ replies: 89, retweets: 210, likes: 890, views: '8.5K' }}

@@ -1,7 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 import { ChatMessage, BotPersona } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Use a default empty string if API_KEY is not provided to prevent immediate crash during initialization in some environments.
+const API_KEY = process.env.API_KEY || process.env.GEMINI_API_KEY || "";
+const ai = new GoogleGenAI({ apiKey: API_KEY });
 const MODEL_NAME = 'gemini-3-flash-preview';
 
 /**
@@ -10,7 +12,7 @@ const MODEL_NAME = 'gemini-3-flash-preview';
 export const generateChatSummary = async (messages: ChatMessage[], groupName: string): Promise<string> => {
   try {
     const chatLog = messages.map(m => `${m.sender}: ${m.content}`).join('\n');
-    
+
     const prompt = `
       Act as a Community Manager for a Web3 Project.
       Analyze the following chat log from the Telegram group "${groupName}".
